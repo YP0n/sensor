@@ -1,0 +1,16 @@
+package ua.ypon.sensor.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import ua.ypon.sensor.models.Measurements;
+import ua.ypon.sensor.models.Sensor;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * @author ua.ypon 19.09.2023
+ */
+@Repository
+public interface MeasurementRepository extends JpaRepository<Measurements, Integer> {
+}
