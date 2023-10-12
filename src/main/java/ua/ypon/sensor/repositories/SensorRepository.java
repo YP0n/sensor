@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ua.ypon.sensor.models.Sensor;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ua.ypon 19.09.2023

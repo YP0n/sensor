@@ -2,6 +2,10 @@ package ua.ypon.sensor.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import ua.ypon.sensor.dto.SensorDTO;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * @author ua.ypon 19.09.2023
@@ -12,6 +16,7 @@ public class Measurements {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "value")
@@ -25,8 +30,11 @@ public class Measurements {
     private boolean raining;
 
     @ManyToOne
-    @JoinColumn(name = "sensor_id", referencedColumnName = "id")
+    @JoinColumn(name = "sensor_name", referencedColumnName = "id")
     private Sensor sensorOwner;
+
+    @Column(name = "created_at")
+    private LocalDateTime timestamp;
 
     public Measurements() {
     }
@@ -60,12 +68,20 @@ public class Measurements {
         this.raining = raining;
     }
 
-    public Sensor getSensor() {
+    public Sensor getSensorOwner() {
         return sensorOwner;
     }
 
-    public void setSensor(Sensor sensorOwner) {
+    public void setSensorOwner(Sensor sensorOwner) {
         this.sensorOwner = sensorOwner;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override

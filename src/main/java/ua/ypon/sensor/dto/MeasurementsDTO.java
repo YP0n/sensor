@@ -6,8 +6,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
 import ua.ypon.sensor.models.Sensor;
 
-import java.util.Optional;
-
 /**
  * @author ua.ypon 06.10.2023
  */
@@ -24,19 +22,19 @@ public class MeasurementsDTO {
     private boolean raining;
 
     @ManyToOne
-    @JoinColumn(name = "sensor_id", referencedColumnName = "id")
-    private Sensor sensorOwner;
-
-    public Sensor getSensorOwner() {
-        return sensorOwner;
-    }
-
-    public void setSensorOwner(Sensor sensorOwner) {
-        this.sensorOwner = sensorOwner;
-    }
+    @JoinColumn(name = "sensor_name", referencedColumnName = "id")
+    private Sensor sensor;
 
     public double getValue() {
         return value;
+    }
+
+    public Sensor getSensor() {
+        return sensor;
+    }
+
+    public void setSensor(Sensor sensor) {
+        this.sensor = sensor;
     }
 
     public void setValue(double value) {

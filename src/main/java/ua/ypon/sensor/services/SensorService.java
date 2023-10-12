@@ -3,12 +3,14 @@ package ua.ypon.sensor.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.ypon.sensor.dto.SensorDTO;
 import ua.ypon.sensor.models.Sensor;
 import ua.ypon.sensor.repositories.SensorRepository;
 import ua.ypon.sensor.util.SensorNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author ua.ypon 19.09.2023
@@ -39,9 +41,22 @@ public class SensorService {
         return !sensors.isEmpty();
     }
 
-    //відкриваємо транзакцію бо будуть зміни в БД
+    public Sensor findSensorByNameOrId(String nameOrId) {
+        try {
+            int id = Integer.parseInt(nameOrId);
+            return sensorRepository.findById(id)
+                    .orElseThrow(() -> new SensorNotFoundException());
+        } catch (NumberFormatException e) {
+            List<Sensor> sensors = sensorRepository.findSensorByName(nameOrId);
+            if(sensors.isEmpty()) {
+                throw new SensorNotFoundException();
+            }
+            return sensors.get(0);
+        }
+    }
     @Transactional
     public void save(Sensor sensor) {
         sensorRepository.save(sensor);
     }
+
 }
