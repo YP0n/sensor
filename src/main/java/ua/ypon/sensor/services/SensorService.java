@@ -55,8 +55,8 @@ public class SensorService {
         }
     }
     @Transactional
-    public void save(Sensor sensor) {
-        sensorRepository.save(sensor);
+    public Sensor save(Sensor sensor) {
+        return sensorRepository.save(sensor);
     }
 
 }

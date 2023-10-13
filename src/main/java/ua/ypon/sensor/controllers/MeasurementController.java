@@ -8,9 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ua.ypon.sensor.dto.MeasurementsDTO;
-import ua.ypon.sensor.dto.RandomMeasurementsDataGenerator;
-import ua.ypon.sensor.dto.RandomSensorDataGenerator;
-import ua.ypon.sensor.dto.SensorDTO;
 import ua.ypon.sensor.models.Measurements;
 import ua.ypon.sensor.models.Sensor;
 import ua.ypon.sensor.services.MeasurementService;
@@ -53,26 +50,14 @@ public class MeasurementController {
     @GetMapping("/rainyDaysCount")
     public ResponseEntity<Integer> countRainyDays() {
         List<Measurements> allMeasurements = measurementService.findAll();
-        int rainyDays = measurementService.countDayWithRain(allMeasurements);
+        int rainyDays = 0;
+        for (Measurements measurement : allMeasurements) {
+            if (measurement.isRaining()) {
+                rainyDays++;
+            }
+        }
         return ResponseEntity.ok(rainyDays);
     }
-
-    @PostMapping("/generateRandomData")
-    public ResponseEntity<HttpStatus> generateRandomData(@RequestParam("count") int count) {
-        for (int i = 0; i < count; i++) {
-            SensorDTO randomSensorDTO = RandomSensorDataGenerator.generateRandomSensorDTO();
-                Sensor sensor = modelMapper.map(randomSensorDTO, Sensor.class);
-                sensorService.save(sensor);
-
-                MeasurementsDTO randomMeasurementsDTO = RandomMeasurementsDataGenerator.generateRandomMeasurementsDTO();
-                String sensorName = randomSensorDTO.getName();
-                randomMeasurementsDTO.getSensor().setName(sensorName);
-
-                measurementService.save(modelMapper.map(randomMeasurementsDTO, Measurements.class));
-            }
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
 
     @PostMapping("/add")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid MeasurementsDTO measurementsDTO,

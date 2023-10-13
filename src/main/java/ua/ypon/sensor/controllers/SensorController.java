@@ -49,14 +49,17 @@ public class SensorController {
     //@RequestBody для конвертації json в клас Sensor
 
     @PostMapping("/registration")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid SensorDTO sensorDTO) {
+    public ResponseEntity<SensorDTO> create(@RequestBody @Valid SensorDTO sensorDTO) {
         if (sensorService.sensorExistsByName(sensorDTO.getName())) {
             throw new SensorNotCreatedException("A sensor with this name already exists");
         }
-        sensorService.save(convertToSensor(sensorDTO));
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        Sensor createdSensor = sensorService.save(convertToSensor(sensorDTO));
+        SensorDTO createdSensorDTO = convertToSensorDTO(createdSensor);
+
+        return new ResponseEntity<>(createdSensorDTO, HttpStatus.CREATED);
     }
+
 
     //ловимо та обробляємо наше особисте виключення та створюємо обʼєкт response з повідомленням та часом створення
     @ExceptionHandler
