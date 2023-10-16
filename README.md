@@ -82,7 +82,7 @@ using the following options:
 - Receiving and displaying the latest measurements from sensors.
 - Setting up notifications in case of certain changes in sensor indicators.
 - Analysis and visualization of historical sensor data using graphs.
-  ![img.png](src/main/java/ua/ypon/sensor/util/source/Знімок екрана 2023-10-16 о 15.53.32.png)
+- ![img.png](https://github.com/YP0n/sensor/blob/master/src/main/java/ua/ypon/sensor/util/source/%D0%97%D0%BD%D1%96%D0%BC%D0%BE%D0%BA%20%D0%B5%D0%BA%D1%80%D0%B0%D0%BD%D0%B0%202023-10-16%20%D0%BE%2015.53.32.png)
 
 #### Contribution
 
