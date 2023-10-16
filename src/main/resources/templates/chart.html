@@ -1,0 +1,116 @@
+<!--<!DOCTYPE html>: Це оголошення типу документа для HTML5.
+
+<html lang="en>: Початок HTML-документа з вказаною мовою, яка в даному випадку встановлена на "en" (англійська).
+
+<head>: Цей елемент містить інформацію про документ, таку як кодування, назву сторінки і посилання на зовнішні ресурси.
+
+<meta charset="UTF-8">: Визначає кодування сторінки як UTF-8, що підтримує багато різних символів.
+
+<title>Графік температури</title>: Визначає заголовок сторінки, який відображається в браузері.
+
+<style>: Цей блок містить CSS-стилі для сторінки. Встановлюються розміри контейнера для графіка.
+
+<body>: Починає тіло сторінки, де відображається вміст.
+
+<h1>Графік зміни температури</h1>: Заголовок сторінки, що показує назву графіка.
+
+<div id="chart-container">: Створює контейнер для розміщення графіка. Встановлюються розміри цього контейнера.
+
+<canvas id="temperature-chart"></canvas>: Цей елемент <canvas> використовується для малювання графіка.
+
+<a href="/">Повернутися на головну сторінку</a>: Створює посилання для повернення на головну сторінку.
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>: Підключає бібліотеку jQuery, яка допоможе виконати AJAX-запит для отримання даних для графіка.
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>: Підключає бібліотеку Chart.js, яка дозволить нам будувати графіки.
+
+JavaScript-код: Цей блок JavaScript-коду виконується, коли сторінка завантажена. Він виконує AJAX-запит до сервера, отримує дані для графіка і викликає функцію renderChart(), яка створює графік на основі отриманих даних.
+
+renderChart(chartData): Ця функція приймає дані для графіка (chartData) і використовує бібліотеку Chart.js для створення графіка температури. Вона встановлює тип графіка, дані для графіка, стиль лінії та інші параметри графіка.
+
+console.log(): Ці команди виводять дані в консоль браузера для відладки.
+
+Цей код створює сторінку, яка включає графік температури, який побудований на основі даних, отриманих з сервера за допомогою AJAX-запиту.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Графік температури</title>
+    <style>
+        #chart-container {
+            width: 500px; /* Ширина контейнера */
+            height: 300px; /* Висота контейнера */
+        }
+    </style>
+</head>
+<body>
+    <h1>Графік зміни температури</h1>
+
+    <div id="chart-container">
+        <canvas id="temperature-chart"></canvas>
+    </div>
+
+    <a href="/">Повернутися на головну сторінку</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Посилання на Chart.js -->
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:8080/measurements/measurements-chart-data',
+                method: 'GET',
+                success: function (data) {
+                  renderChart(data);
+                }
+            });
+        });
+
+        function renderChart(chartData) {
+            const ctx = document.getElementById('temperature-chart').getContext('2d');
+            const dataPoints = chartData.dataset;
+            const columnKeys = chartData.columnKeys;
+            console.log(dataPoints);
+            console.log(columnKeys);
+            console.log(ctx);
+            console.log(chartData);
+
+            const chart = new Chart(ctx, {
+                type: 'line', //Тип графіка(лінійний)
+                data: {
+                    labels: columnKeys.map((label) => new Date(label).getTime()), //Мітки на осі X
+                    datasets: [
+                        {
+                            data: dataPoints, // Дані для графіка
+                            borderColor: 'blue', //Колір лінії
+                            fill: false // Незаповнений графік
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            time: {
+                                unit: 'second', //Налаштування показу часу на осі X
+                            },
+                        },
+                        y: {
+                            ticks: {
+                                stepSize: 10 //Інтервал між мітками на осі Y
+                            },
+                            title: {
+                                display: true,
+                                text: 'Температура (°C)',
+                            },
+                        },
+                    },
+                },
+            });
+            console.log(chart);
+        }
+    </script>
+
+</body>
+</html>

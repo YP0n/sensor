@@ -91,3 +91,31 @@ public class SensorController {
         return modelMapper.map(sensor, SensorDTO.class);
     }
 }
+
+/*
+Цей код представляє контролер для обробки запитів, пов'язаних з сенсорами веб-додатка на основі Spring Framework. Ось пояснення до кожної частини коду:
+
+package ua.ypon.sensor.controllers;: Це оголошення пакету, яке визначає, в якому пакеті розташований цей клас контролера.
+
+@RestController: Ця анотація позначає клас як контролер, який обробляє запити та повертає результат у форматі JSON.
+
+@RequestMapping("/sensor"): Вказує, що всі URL-запити, які починаються з "/sensor", будуть оброблятися цим контролером.
+
+private final SensorService sensorService;: Це ін'єкція сервісу сенсора, який використовується для взаємодії з базою даних сенсорів.
+
+private final ModelMapper modelMapper;: Це ін'єкція ModelMapper, який використовується для конвертації об'єктів між класами SensorDTO і Sensor.
+
+@GetMapping: Ця анотація вказує, що метод обробляє GET-запити.
+
+@PostMapping("/registration"): Вказує, що метод обробляє POST-запити за шляхом "/sensor/registration".
+
+@RequestBody @Valid SensorDTO sensorDTO: Ця анотація вказує, що об'єкт sensorDTO передається в тілі запиту у форматі JSON та підлягає валідації.
+
+ResponseEntity<SensorDTO> create(...): Метод, який створює новий сенсор, валідує дані, обробляє винятки та повертає результат у вигляді об'єкта ResponseEntity зі статусом та тілом.
+
+@ExceptionHandler: Ця анотація вказує, що методи handleException використовуються для обробки винятків і відповідають за створення відповідей на винятки.
+
+convertToSensor та convertToSensorDTO: Методи для конвертації об'єктів між SensorDTO та Sensor.
+
+Отже, цей контролер обробляє запити для отримання і створення сенсорів, обробляє винятки і повертає відповіді у форматі JSON.
+ */
